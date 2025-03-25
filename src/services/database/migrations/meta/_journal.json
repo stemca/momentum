@@ -8,6 +8,13 @@
 			"when": 1742932858510,
 			"tag": "0000_wise_cassandra_nova",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "6",
+			"when": 1742934453538,
+			"tag": "0001_parallel_jack_murdock",
+			"breakpoints": true
 		}
 	]
 }

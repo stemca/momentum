@@ -10,3 +10,6 @@ export const users = sqliteTable("user", {
 		.primaryKey(),
 	...timestamps,
 });
+
+export type SelectUser = typeof users.$inferSelect;
+export type User = typeof users.$inferInsert;
