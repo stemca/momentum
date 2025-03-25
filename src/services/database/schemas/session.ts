@@ -1,5 +1,4 @@
-import { createId } from "@paralleldrive/cuid2";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 import { timestamps } from "../timestamps";
 import { users } from "./user";
@@ -7,10 +6,7 @@ import { users } from "./user";
 export const sessions = sqliteTable(
 	"session",
 	{
-		id: text({ length: 256 })
-			.primaryKey()
-			.notNull()
-			.$defaultFn(() => createId()),
+		id: text({ length: 256 }).primaryKey().notNull(),
 		userId: text("user_id").references(() => users.id, {
 			onDelete: "cascade",
 		}),
@@ -20,4 +16,5 @@ export const sessions = sqliteTable(
 	(t) => [index("session_user_id_idx").on(t.userId)],
 );
 
-export type Session = typeof sessions.$inferSelect;
+export type SelectSession = typeof sessions.$inferSelect;
+export type Session = typeof sessions.$inferInsert;
