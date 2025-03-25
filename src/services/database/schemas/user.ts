@@ -10,3 +10,5 @@ export const users = sqliteTable("user", {
 		.primaryKey(),
 	...timestamps,
 });
+
+export type User = typeof users.$inferSelect;
