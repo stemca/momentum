@@ -2,8 +2,7 @@ name: Migrate
 
 on:
   push:
-    # uncomment after testing
-    # branches: [main]
+    branches: [main]
     paths: ["src/services/database/migrations/*"]
 
 jobs:
