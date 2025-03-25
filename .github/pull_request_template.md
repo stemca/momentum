@@ -1,6 +1,6 @@
 ## Ticket
 
-- https://github.com/stemca/momentum//issues/xxx
+- https://github.com/stemca/momentum/issues/xxx
 
 ## Changes
 
