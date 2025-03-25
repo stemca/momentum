@@ -8,11 +8,18 @@
 		"lint:fix": "biome lint . --fix",
 		"format": "biome format .",
 		"format:fix": "biome format . --write",
-		"check": "biome check ."
+		"check": "biome check .",
+		"db:migrate": "drizzle-kit migrate",
+		"db:generate": "drizzle-kit generate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
+		"@libsql/client": "^0.15.1",
+		"@paralleldrive/cuid2": "^2.2.2",
 		"@vercel/analytics": "^1.5.0",
 		"@vercel/speed-insights": "^1.2.0",
+		"dotenv": "^16.4.7",
+		"drizzle-orm": "^0.41.0",
 		"hono": "^4.7.5",
 		"next": "15.2.4",
 		"react": "19.0.0",
@@ -23,6 +30,8 @@
 		"@types/node": "22.13.13",
 		"@types/react": "19.0.12",
 		"@types/react-dom": "19.0.4",
+		"drizzle-kit": "^0.30.5",
+		"tsx": "^4.19.3",
 		"typescript": "^5.8.2"
 	}
 }

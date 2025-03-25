@@ -2,8 +2,9 @@ name: Migrate
 
 on:
   push:
-    branches: [main]
-    paths: ["src/services/db/migrations/*"]
+    # uncomment after testing
+    # branches: [main]
+    paths: ["src/services/database/migrations/*"]
 
 jobs:
   migrate:
@@ -28,6 +29,7 @@ jobs:
       - name: Create .env file
         run: |
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo DATABASE_AUTH_TOKEN=${{ secrets.DATABASE_AUTH_TOKEN }} >> .env
 
       - name: Install dependencies
         run: pnpm i
