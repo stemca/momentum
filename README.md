@@ -28,6 +28,3 @@ If you'd like to contribute to Momentum, please follow these steps:
 2. Create a new branch for your feature or bug fix with the naming convention of `<username>/<issue_number>/<short_description>`
 3. Make your changes and commit them
 4. Submit a pull request
-
-### License
-Momentum is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
