@@ -30,3 +30,11 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+# Turborepo
+.turbo
+
+# Database
+local.db
+local.db-shm
+local.db-wal
