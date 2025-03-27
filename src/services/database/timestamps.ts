@@ -2,12 +2,12 @@ import { sql } from "drizzle-orm";
 import { int } from "drizzle-orm/sqlite-core";
 
 export const timestamps = {
-	createdAt: int({
-		mode: "timestamp_ms",
+	createdAt: int("created_at", {
+		mode: "timestamp",
 	})
 		.notNull()
 		.default(sql`(unixepoch())`),
-	updatedAt: int({
-		mode: "timestamp_ms",
+	updatedAt: int("updated_at", {
+		mode: "timestamp",
 	}).$onUpdate(() => sql`(unixepoch())`),
 };

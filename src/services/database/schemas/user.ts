@@ -10,7 +10,7 @@ export const users = sqliteTable(
 			.notNull()
 			.$defaultFn(() => createId())
 			.primaryKey(),
-		firstName: text("first_name", { length: 256 }).notNull(),
+		name: text("name", { length: 256 }).notNull(),
 		email: text("email", { length: 1024 }).notNull().unique(),
 		password: text("password", { length: 256 }).notNull(),
 		...timestamps,
