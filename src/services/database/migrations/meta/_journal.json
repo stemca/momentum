@@ -15,6 +15,20 @@
 			"when": 1742934453538,
 			"tag": "0001_parallel_jack_murdock",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1742947779113,
+			"tag": "0002_slim_lifeguard",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "6",
+			"when": 1743105455200,
+			"tag": "0003_groovy_emma_frost",
+			"breakpoints": true
 		}
 	]
 }
