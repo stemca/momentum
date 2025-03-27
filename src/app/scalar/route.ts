@@ -12,24 +12,24 @@ const html = `
       id="api-reference"
       data-url="/spec"
       data-configuration="${JSON.stringify({
-  authentication: {
-    preferredSecurityScheme: 'bearerAuth',
-    http: {
-      bearer: {
-        token: 'default-token',
-      },
-    },
-  },
-}).replaceAll('"', '&quot;')}"></script>
+				authentication: {
+					preferredSecurityScheme: "bearerAuth",
+					http: {
+						bearer: {
+							token: "default-token",
+						},
+					},
+				},
+			}).replaceAll('"', "&quot;")}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
 </body>
 </html>
-`
+`;
 
 export function GET() {
-  return new Response(html, {
-    headers: {
-      'Content-Type': 'text/html',
-    },
-  })
+	return new Response(html, {
+		headers: {
+			"Content-Type": "text/html",
+		},
+	});
 }

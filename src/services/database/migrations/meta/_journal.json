@@ -1,34 +1,34 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "6",
-      "when": 1742932858510,
-      "tag": "0000_wise_cassandra_nova",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1742934453538,
-      "tag": "0001_parallel_jack_murdock",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1742947779113,
-      "tag": "0002_slim_lifeguard",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1743105455200,
-      "tag": "0003_groovy_emma_frost",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "sqlite",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "6",
+			"when": 1742932858510,
+			"tag": "0000_wise_cassandra_nova",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "6",
+			"when": 1742934453538,
+			"tag": "0001_parallel_jack_murdock",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1742947779113,
+			"tag": "0002_slim_lifeguard",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "6",
+			"when": 1743105455200,
+			"tag": "0003_groovy_emma_frost",
+			"breakpoints": true
+		}
+	]
 }
