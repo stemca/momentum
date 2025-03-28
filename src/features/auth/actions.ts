@@ -1,4 +1,5 @@
 "use server";
+
 import { cookies } from "next/headers";
 
 import { NewUserSchema } from "@/schemas/user";
@@ -9,21 +10,23 @@ export const signUpAction = async (
 	_: unknown,
 	formData: FormData,
 ): Promise<FormState> => {
-	const values = Object.entries(formData.entries());
+	const values = Object.fromEntries(formData.entries());
 	const validated = NewUserSchema.safeParse(values);
+	console.log(JSON.stringify(validated, null, 2));
 
 	if (!validated.success) {
 		return { message: "Invalid form data", success: false };
 	}
 
-	const { id, expiresAt } = await signUp({ ...validated.data });
-	// store the session id in cookies
+	const { id } = await signUp({ ...validated.data });
+
 	const cookieStore = await cookies();
 
-	cookieStore.set("momentum_session", id, {
+	cookieStore.set({
+		name: "momentum_session",
+		value: id,
 		httpOnly: true,
 		secure: true,
-		expiresAt: expiresAt,
 		sameSite: "lax",
 		path: "/",
 	});

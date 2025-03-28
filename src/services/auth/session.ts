@@ -25,7 +25,7 @@ export const createSession = async (
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
 	} satisfies Session;
 
-	await db.insert(sessions).values(session).returning();
+	await db.insert(sessions).values(session);
 
 	return session;
 };

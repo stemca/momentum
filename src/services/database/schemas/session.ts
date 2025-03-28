@@ -12,7 +12,7 @@ export const sessions = sqliteTable(
 				onDelete: "cascade",
 			})
 			.notNull(),
-		expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+		expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
 		...timestamps,
 	},
 	(t) => [index("session_user_id_idx").on(t.userId)],
