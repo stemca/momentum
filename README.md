@@ -16,6 +16,10 @@ cd momentum
 ```shell
 pnpm install
 ```
+- Copy the environment variables:
+```shell
+cp .env.example .env
+```
 - Initialize the database:
 ```shell
 pnpm db:migrate
