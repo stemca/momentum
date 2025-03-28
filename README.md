@@ -1,6 +1,5 @@
 # Momentum
-Momentum is a fitness tracking app that helps users stay motivated and on track with their fitness goals. What sets us apart from other fitness apps is the accessibility to premium features such as personalized workout plans, advanced analytics, and social sharing.
-
+Momentum is a fitness tracking app that helps users stay motivated and on track with their fitness goals.
 ## Getting Started
 
 ### Prerequisites
