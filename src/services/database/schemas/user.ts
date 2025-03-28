@@ -12,7 +12,7 @@ export const users = sqliteTable(
 			.primaryKey(),
 		name: text("name", { length: 256 }).notNull(),
 		email: text("email", { length: 1024 }).notNull().unique(),
-		password: text("password", { length: 256 }).notNull(),
+		password: text("password", { length: 256 }),
 		...timestamps,
 	},
 	(t) => [index("users_email_idx").on(t.email)],

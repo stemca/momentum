@@ -15,8 +15,8 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signUpAction } from "@/features/auth/actions";
-import { type NewUser, NewUserSchema } from "@/schemas/user";
+import { signInAction } from "@/features/auth/actions";
+import { type SignInType, SignInSchema } from "@/schemas/user";
 import type { FormState } from "@/types/form-state";
 
 const initialState = {
@@ -24,18 +24,17 @@ const initialState = {
 	message: undefined,
 } satisfies FormState;
 
-export default function SignUpForm() {
+export default function SignInForm() {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [state, formAction, pending] = useActionState(
-		signUpAction,
+		signInAction,
 		initialState,
 	);
 
 	const form = useForm({
-		resolver: zodResolver<NewUser>(NewUserSchema),
+		resolver: zodResolver<SignInType>(SignInSchema),
 		mode: "onSubmit",
 		defaultValues: {
-			name: "",
 			email: "",
 			password: "",
 		},
@@ -65,19 +64,6 @@ export default function SignUpForm() {
 				}}
 				className="flex w-full max-w-lg flex-col space-y-3"
 			>
-				<FormField
-					control={form.control}
-					name="name"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Name</FormLabel>
-							<FormControl>
-								<Input placeholder="John Doe" autoComplete="name" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<FormField
 					control={form.control}
 					name="email"

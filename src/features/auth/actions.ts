@@ -1,9 +1,11 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { ORPCError } from "@orpc/client";
+import { redirect } from "next/navigation";
 
-import { NewUserSchema } from "@/schemas/user";
-import { signUp } from "@/server/routers/auth";
+import { NewUserSchema, SignInSchema } from "@/schemas/user";
+import { signIn, signUp } from "@/server/routers/auth";
 import type { FormState } from "@/types/form-state";
 
 export const signUpAction = async (
@@ -12,25 +14,65 @@ export const signUpAction = async (
 ): Promise<FormState> => {
 	const values = Object.fromEntries(formData.entries());
 	const validated = NewUserSchema.safeParse(values);
-	console.log(JSON.stringify(validated, null, 2));
 
 	if (!validated.success) {
 		return { message: "Invalid form data", success: false };
 	}
 
-	const { id } = await signUp({ ...validated.data });
+	try {
+		const { id } = await signUp({ ...validated.data });
 
-	const cookieStore = await cookies();
+		const cookieStore = await cookies();
 
-	cookieStore.set({
-		name: "momentum_session",
-		value: id,
-		httpOnly: true,
-		secure: true,
-		sameSite: "lax",
-		path: "/",
-	});
+		cookieStore.set({
+			name: "momentum_session",
+			value: id,
+			httpOnly: true,
+			secure: true,
+			sameSite: "lax",
+			path: "/",
+		});
+	} catch (error) {
+		if (error instanceof ORPCError) {
+			return { message: error.message, success: false };
+		}
 
-	// revalidate path and redirect to verify-email
-	return { message: "", success: true };
+		return { message: "Something went wrong", success: false };
+	}
+
+	redirect("/home");
+};
+
+export const signInAction = async (
+	_: unknown,
+	formData: FormData,
+): Promise<FormState> => {
+	const values = Object.fromEntries(formData.entries());
+	const validated = SignInSchema.safeParse(values);
+
+	if (!validated.success) {
+		return { message: "Invalid form data", success: false };
+	}
+
+	try {
+		const { id } = await signIn({ ...validated.data });
+		const cookieStore = await cookies();
+		cookieStore.set({
+			name: "momentum_session",
+			value: id,
+			httpOnly: true,
+			secure: true,
+			sameSite: "lax",
+			path: "/",
+		});
+	} catch (error) {
+		console.error(error);
+		if (error instanceof ORPCError) {
+			return { message: error.message, success: false };
+		}
+
+		return { message: "Something went wrong", success: false };
+	}
+
+	redirect("/home");
 };

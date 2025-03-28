@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export type NewUser = z.infer<typeof NewUserSchema>;
 export type User = z.infer<typeof UserSchema>;
+export type SignInType = z.infer<typeof SignInSchema>;
 
 export const NewUserSchema = oz.openapi(
 	z.object({
@@ -44,6 +45,21 @@ export const UserSchema = oz.openapi(
 				id: "1",
 				name: "John Doe",
 				email: "john@doe.com",
+			},
+		],
+	},
+);
+
+export const SignInSchema = oz.openapi(
+	z.object({
+		email: z.string().email({ message: "Please enter a valid email." }).trim(),
+		password: z.string(),
+	}),
+	{
+		examples: [
+			{
+				email: "john.doe@gmail.com",
+				password: "********",
 			},
 		],
 	},

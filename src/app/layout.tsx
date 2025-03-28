@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import { Providers } from "./providers";
 
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
 	title: "Momentum",
@@ -22,7 +23,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${inter.className} font-sans antialiased`}>
 				<Providers>{children}</Providers>
-				<Toaster />
+				<Toaster richColors theme="light" />
 			</body>
 		</html>
 	);
