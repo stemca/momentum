@@ -41,12 +41,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.69.0
         version: 5.69.0(react@19.0.0)
-      '@vercel/analytics':
-        specifier: ^1.5.0
-        version: 1.5.0(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
-      '@vercel/speed-insights':
-        specifier: ^1.2.0
-        version: 1.2.0(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -978,55 +972,6 @@ packages:
 
   '@types/ws@8.18.0':
     resolution: {integrity: sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==}
-
-  '@vercel/analytics@1.5.0':
-    resolution: {integrity: sha512-MYsBzfPki4gthY5HnYN7jgInhAZ7Ac1cYDoRWFomwGHWEX7odTEzbtg9kf/QSo7XEsEAqlQugA6gJ2WS2DEa3g==}
-    peerDependencies:
-      '@remix-run/react': ^2
-      '@sveltejs/kit': ^1 || ^2
-      next: '>= 13'
-      react: ^18 || ^19 || ^19.0.0-rc
-      svelte: '>= 4'
-      vue: ^3
-      vue-router: ^4
-    peerDependenciesMeta:
-      '@remix-run/react':
-        optional: true
-      '@sveltejs/kit':
-        optional: true
-      next:
-        optional: true
-      react:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-      vue-router:
-        optional: true
-
-  '@vercel/speed-insights@1.2.0':
-    resolution: {integrity: sha512-y9GVzrUJ2xmgtQlzFP2KhVRoCglwfRQgjyfY607aU0hh0Un6d0OUyrJkjuAlsV18qR4zfoFPs/BiIj9YDS6Wzw==}
-    peerDependencies:
-      '@sveltejs/kit': ^1 || ^2
-      next: '>= 13'
-      react: ^18 || ^19 || ^19.0.0-rc
-      svelte: '>= 4'
-      vue: ^3
-      vue-router: ^4
-    peerDependenciesMeta:
-      '@sveltejs/kit':
-        optional: true
-      next:
-        optional: true
-      react:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-      vue-router:
-        optional: true
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -2047,16 +1992,6 @@ snapshots:
   '@types/ws@8.18.0':
     dependencies:
       '@types/node': 22.13.13
-
-  '@vercel/analytics@1.5.0(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
-    optionalDependencies:
-      next: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react: 19.0.0
-
-  '@vercel/speed-insights@1.2.0(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
-    optionalDependencies:
-      next: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react: 19.0.0
 
   buffer-from@1.1.2: {}
 
