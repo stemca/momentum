@@ -25,12 +25,9 @@ export const createSession = async (
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
 	} satisfies Session;
 
-	const [result] = await db.insert(sessions).values(session).returning();
-	if (!result) {
-		throw new Error("Failed to create session");
-	}
+	await db.insert(sessions).values(session).returning();
 
-	return result;
+	return session;
 };
 
 export const validateSessionToken = async (

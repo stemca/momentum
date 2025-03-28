@@ -1,8 +1,11 @@
-import { NewUserSchema } from "@/schemas/user";
-import { users } from "@/services/database/schemas";
-import { hashPassword } from "@/utils/password";
 import { ORPCError } from "@orpc/server";
 import { eq } from "drizzle-orm";
+
+import { SessionSchema } from "@/schemas/session";
+import { NewUserSchema } from "@/schemas/user";
+import { createSession, generateSessionToken } from "@/services/auth/session";
+import { users } from "@/services/database/schemas";
+import { hashPassword } from "@/utils/password";
 import { pub } from "../clients";
 
 export const signUp = pub
@@ -12,16 +15,20 @@ export const signUp = pub
 		summary: "Sign up a new user",
 		tags: ["authentication"],
 	})
+	.errors({
+		CONFLICT: {
+			message: "A user already exists with this email address",
+		},
+	})
 	.input(NewUserSchema)
-	.handler(async ({ context, input }) => {
+	.output(SessionSchema)
+	.handler(async ({ context, input, errors }) => {
 		// find existing user
 		const existingUser = await context.db.query.users.findFirst({
 			where: eq(users.email, input.email),
 		});
 		if (existingUser) {
-			throw new ORPCError("CONFLICT", {
-				message: "A user already exists with this email address",
-			});
+			throw errors.CONFLICT();
 		}
 
 		// create new user and hash password
@@ -33,13 +40,11 @@ export const signUp = pub
 				...input,
 				password: hashedPassword,
 			})
-			.returning();
+			.returning({ insertedId: users.id });
 
-		if (!user) {
-			throw new ORPCError("INTERNAL_SERVER_ERROR", {
-				message: "Failed to create user",
-			});
-		}
-		return user;
+		const sessionToken = generateSessionToken();
+		const session = await createSession(sessionToken, user.insertedId);
+
+		return session;
 	})
 	.actionable();
