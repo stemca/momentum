@@ -2,10 +2,14 @@ import { eq } from "drizzle-orm";
 
 import { SessionSchema } from "@/schemas/session";
 import { NewUserSchema, SignInSchema } from "@/schemas/user";
-import { createSession, generateSessionToken } from "@/services/auth/session";
+import {
+	createSession,
+	generateSessionToken,
+	invalidateSession,
+} from "@/services/auth/session";
 import { users } from "@/services/database/schemas";
 import { hashPassword, verifyPasswordHash } from "@/utils/password";
-import { pub } from "../clients";
+import { authed, pub } from "../clients";
 
 export const signUp = pub
 	.route({
@@ -92,26 +96,15 @@ export const signIn = pub
 	})
 	.actionable();
 
-export const signOut = pub
+export const signOut = authed
 	.route({
 		method: "POST",
 		path: "/auth/sign-out",
 		summary: "Sign out",
 		tags: ["authentication"],
 	})
-	.errors({
-		UNAUTHORIZED: {
-			message: "You are not signed in",
-		},
-	})
-	.handler(async ({ context, errors }) => {
-		const session = await context.session();
-		if (!session) {
-			throw errors.UNAUTHORIZED();
-		}
-
-		await context.db.delete(sessions).where(eq(sessions.id, session.id));
-
-		await context.cookies().delete("momentum_session");
+	.handler(async ({ context }) => {
+		// delete session from db
+		await invalidateSession(context.session.id);
 	})
 	.actionable();

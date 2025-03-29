@@ -5,14 +5,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { NewUserSchema, SignInSchema } from "@/schemas/user";
-import { signIn, signUp } from "@/server/routers/auth";
+import { signIn, signOut, signUp } from "@/server/routers/auth";
 import type { FormState } from "@/types/form-state";
-
-export const signOutAction = async () => {
-	const cookieStore = await cookies();
-	cookieStore.delete("momentum_session");
-	// delete the session from the database
-};
 
 export const signUpAction = async (
 	_: unknown,
@@ -62,6 +56,7 @@ export const signInAction = async (
 
 	try {
 		const { id } = await signIn({ ...validated.data });
+
 		const cookieStore = await cookies();
 		cookieStore.set({
 			name: "momentum_session",
@@ -72,12 +67,26 @@ export const signInAction = async (
 			path: "/",
 		});
 	} catch (error) {
-		console.error(error);
 		if (error instanceof ORPCError) {
 			return { message: error.message, success: false };
 		}
 
 		return { message: "Something went wrong", success: false };
+	}
+
+	redirect("/home");
+};
+
+export const signOutAction = async () => {
+	const cookieStore = await cookies();
+	cookieStore.delete("momentum_session");
+
+	try {
+		await signOut();
+	} catch (error) {
+		if (error instanceof ORPCError) {
+			throw new Error(error.message);
+		}
 	}
 
 	redirect("/home");

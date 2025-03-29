@@ -9,5 +9,5 @@ export const timestamps = {
 		.default(sql`(unixepoch() * 1000)`),
 	updatedAt: int("updated_at", {
 		mode: "timestamp_ms",
-	}).$onUpdate(() => sql`(unixepoch() * 1000)`),
+	}).$onUpdateFn(() => new Date()),
 };
