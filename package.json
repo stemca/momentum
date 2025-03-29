@@ -32,6 +32,7 @@
 		"@radix-ui/react-slot": "^1.1.2",
 		"@tailwindcss/postcss": "^4.0.17",
 		"@tanstack/react-query": "^5.69.0",
+		"arctic": "^3.6.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"dotenv": "^16.4.7",

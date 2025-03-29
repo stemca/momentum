@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInAction } from "@/features/auth/actions";
-import { type SignInType, SignInSchema } from "@/schemas/user";
+import { SignInSchema, type SignInType } from "@/schemas/user";
 import type { FormState } from "@/types/form-state";
 
 const initialState = {

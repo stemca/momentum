@@ -1,8 +1,8 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import SignInForm from "@/features/auth/components/sign-in-form";
 import { Button } from "@/components/ui/button";
+import SignInForm from "@/features/auth/components/sign-in-form";
 
 export const metadata = {
 	title: "Sign In | Momentum",

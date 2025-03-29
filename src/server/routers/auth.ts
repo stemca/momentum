@@ -91,3 +91,27 @@ export const signIn = pub
 		return session;
 	})
 	.actionable();
+
+export const signOut = pub
+	.route({
+		method: "POST",
+		path: "/auth/sign-out",
+		summary: "Sign out",
+		tags: ["authentication"],
+	})
+	.errors({
+		UNAUTHORIZED: {
+			message: "You are not signed in",
+		},
+	})
+	.handler(async ({ context, errors }) => {
+		const session = await context.session();
+		if (!session) {
+			throw errors.UNAUTHORIZED();
+		}
+
+		await context.db.delete(sessions).where(eq(sessions.id, session.id));
+
+		await context.cookies().delete("momentum_session");
+	})
+	.actionable();

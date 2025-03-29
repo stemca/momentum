@@ -1,12 +1,18 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { ORPCError } from "@orpc/client";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { NewUserSchema, SignInSchema } from "@/schemas/user";
 import { signIn, signUp } from "@/server/routers/auth";
 import type { FormState } from "@/types/form-state";
+
+export const signOutAction = async () => {
+	const cookieStore = await cookies();
+	cookieStore.delete("momentum_session");
+	// delete the session from the database
+};
 
 export const signUpAction = async (
 	_: unknown,

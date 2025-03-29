@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import SignUpForm from "@/features/auth/components/sign-up-form";
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata = {
 	title: "Sign Up | Momentum",

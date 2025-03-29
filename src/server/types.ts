@@ -5,7 +5,7 @@ export type DbContextType = {
 	db?: typeof db;
 };
 
-export type AuthContextType = DbContextType & {
+export type AuthContextType = {
 	user?: User;
 	session?: Session;
 };
