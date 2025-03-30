@@ -2,15 +2,27 @@ name: Publish Image to Github container registry
 
 on:
   push:
+    # branches: [main]
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+  DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+  DISCORD_CALLBACK_URL: ${{ secrets.DISCORD_CALLBACK_URL }}
 
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Build and push the image
-        run: |
-          docker login --username stemca --password ${{secrets.GH_PAT}} ghcr.io
-          docker build . --tag ghcr.io/stemca/momentum:${{ github.sha }}
-          docker push ghcr.io/stemca/momentum:${{ github.sha }}
+      - name: Login to container registry
+        run: docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
+      
+      - name: Build image
+        run: docker build . --tag ghcr.io/stemca/momentum:latest
+
+      - name: Push image to container registry
+        run: docker push ghcr.io/stemca/momentum:latest
+          
