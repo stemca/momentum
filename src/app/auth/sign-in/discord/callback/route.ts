@@ -58,14 +58,6 @@ export async function GET(request: Request): Promise<Response> {
 		});
 	}
 
-	// accounts.accountId: user.id
-	// providerId: "discord"
-	// users.email: user.email
-	// users.emailVerified: user.verified
-	// create a transaction to create a user and an account object
-	// if there is an existing user, link automatically
-	// if there is no user, create a new account
-
 	// first check if the user exists in the users and account table
 	const existingAccount = await db.query.accounts.findFirst({
 		where: and(
@@ -121,7 +113,37 @@ export async function GET(request: Request): Promise<Response> {
 		return new Response(null, { status: 302, headers: { Location: "/home" } });
 	}
 
-	// clear cookie store
+	// user does not exist at all, make an account and create a session
+	const res = await db
+		.insert(users)
+		.values({
+			email: discordUser.data.email,
+			name: discordUser.data.username,
+		})
+		.returning();
+	if (res.length < 1) {
+		return new Response(null, { status: 400 });
+	}
+
+	const newUser = res[0];
+
+	await db.insert(accounts).values({
+		accountId: discordUser.data.id,
+		userId: newUser.id,
+		providerId: "discord",
+	});
+
+	const sessionToken = generateSessionToken();
+	const session = await createSession(sessionToken, newUser.id);
+
+	cookieStore.set({
+		name: "momentum_session",
+		value: session.id,
+		httpOnly: true,
+		secure: true,
+		sameSite: "lax",
+		path: "/",
+	});
 	(await cookies()).delete("discord_oauth_state");
 
 	return new Response(null, { status: 302, headers: { Location: "/home" } });
