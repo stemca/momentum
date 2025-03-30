@@ -1,37 +1,36 @@
-# name: Migrate
+name: Migrate
 
-# on:
-#   push:
-#     branches: [main]
-#     paths: ["src/services/database/migrations/*"]
+on:
+  push:
+    branches: [main]
+    paths: ["src/services/database/migrations/*"]
 
-# jobs:
-#   migrate:
-#     runs-on: ubuntu-latest
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
 
-#     strategy:
-#       matrix:
-#         node-version: [22.12]
+    strategy:
+      matrix:
+        node-version: [22.12]
 
-#     steps:
-#       - name: Print event
-#         run: echo ${{ github.event_name }}
+    steps:
+      - name: Print event
+        run: echo ${{ github.event_name }}
 
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-#       - name: Install pnpm ${{ matrix.pnpm-version }}
-#         uses: pnpm/action-setup@v4
-#         with:
-#           version: ${{ matrix.pnpm-version }}
+      - name: Install pnpm ${{ matrix.pnpm-version }}
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ matrix.pnpm-version }}
 
-#       - name: Create .env file
-#         run: |
-#           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-#           echo DATABASE_AUTH_TOKEN=${{ secrets.DATABASE_AUTH_TOKEN }} >> .env
+      - name: Create .env file
+        run: |
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
-#       - name: Install dependencies
-#         run: pnpm i
+      - name: Install dependencies
+        run: pnpm i
 
-#       - name: Push schema changes
-#         run: pnpm db:migrate
+      - name: Push schema changes
+        run: pnpm db:migrate

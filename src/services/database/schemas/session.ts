@@ -1,18 +1,21 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { users } from "./user";
 
-export const sessions = sqliteTable(
+export const sessions = pgTable(
 	"session",
 	{
-		id: text({ length: 256 }).primaryKey().notNull(),
-		userId: text("user_id")
+		id: varchar({ length: 256 }).primaryKey().notNull(),
+		userId: uuid("user_id")
 			.references(() => users.id, {
 				onDelete: "cascade",
 			})
 			.notNull(),
-		expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+		expiresAt: timestamp("expires_at", {
+			withTimezone: true,
+			precision: 6,
+		}).notNull(),
 		...timestamps,
 	},
 	(t) => [index("session_user_id_idx").on(t.userId)],

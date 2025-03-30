@@ -1,30 +1,33 @@
-import { createId } from "@paralleldrive/cuid2";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, pgEnum, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { challenges } from "./challenge";
 import { users } from "./user";
 
-export const challengeInvitations = sqliteTable(
+export const challengeInvitationStatus = pgEnum("challenge_invitation_status", [
+	"pending",
+	"accepted",
+	"declined",
+]);
+
+export const challengeInvitations = pgTable(
 	"challenge_invitation",
 	{
-		id: text("id")
-			.primaryKey()
-			.$defaultFn(() => createId())
-			.notNull(),
-		challengeId: text("challenge_id")
+		id: uuid("id").primaryKey().defaultRandom().notNull(),
+		challengeId: uuid("challenge_id")
 			.references(() => challenges.id, {
 				onDelete: "cascade",
 				onUpdate: "cascade",
 			})
 			.notNull(),
-		userId: text("user_id")
+		userId: uuid("user_id")
 			.references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
 			.notNull(),
-		invitationDate: integer("invitation_date", { mode: "timestamp" }).notNull(),
-		status: text("status", {
-			enum: ["pending", "accepted", "declined"],
-		}).default("pending"),
+		invitationDate: timestamp("invitation_date", {
+			withTimezone: true,
+			precision: 6,
+		}).notNull(),
+		status: challengeInvitationStatus("status").default("pending"),
 		...timestamps,
 	},
 	(t) => [

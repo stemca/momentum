@@ -1,18 +1,13 @@
-import { createId } from "@paralleldrive/cuid2";
-import { index, sqliteTable, text } from "drizzle-orm/sqlite-core";
-
+import { index, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { timestamps } from "../timestamps";
 
-export const users = sqliteTable(
+export const users = pgTable(
 	"user",
 	{
-		id: text({ length: 256 })
-			.notNull()
-			.$defaultFn(() => createId())
-			.primaryKey(),
-		name: text("name", { length: 256 }).notNull(),
-		email: text("email", { length: 1024 }).notNull().unique(),
-		password: text("password", { length: 256 }),
+		id: uuid().notNull().defaultRandom().primaryKey(),
+		name: varchar("name", { length: 256 }).notNull(),
+		email: varchar("email", { length: 1024 }).notNull().unique(),
+		password: varchar("password", { length: 256 }), // optional since we can use oauth
 		...timestamps,
 	},
 	(t) => [index("users_email_idx").on(t.email)],

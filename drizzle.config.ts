@@ -4,16 +4,15 @@ import type { Config } from "drizzle-kit";
 import env from "@/utils/env";
 
 dotenv.config({
-	path: "./.env",
+	path: ".env",
 });
 
 export default {
 	out: "./src/services/database/migrations",
 	schema: "./src/services/database/schemas/",
-	dialect: "turso",
+	dialect: "postgresql",
 	dbCredentials: {
 		url: env.DATABASE_URL,
-		authToken: env.DATABASE_AUTH_TOKEN,
 	},
 	verbose: true,
 	casing: "snake_case",

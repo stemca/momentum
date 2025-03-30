@@ -1,21 +1,18 @@
-import { createId } from "@paralleldrive/cuid2";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { users } from "./user";
 
-export const accounts = sqliteTable("account", {
-	id: text("id")
-		.primaryKey()
-		.primaryKey()
-		.$defaultFn(() => createId()),
-	userId: text("user_id")
+export const accounts = pgTable("account", {
+	id: uuid("id").primaryKey().defaultRandom(),
+
+	userId: uuid("user_id")
 		.references(() => users.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	accountId: text("account_id").notNull(),
-	providerId: text("provider_id").notNull(),
+	accountId: varchar("account_id").notNull(),
+	providerId: varchar("provider_id").notNull(),
 	...timestamps,
 });
 

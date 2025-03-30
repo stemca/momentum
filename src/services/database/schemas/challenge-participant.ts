@@ -1,30 +1,32 @@
-import { createId } from "@paralleldrive/cuid2";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, pgEnum, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { challenges } from "./challenge";
 import { users } from "./user";
 
-export const challengeParticipants = sqliteTable(
+export const challengeParticipantStatus = pgEnum(
+	"challenge_participant_status",
+	["invited", "accepted", "declined"],
+);
+
+export const challengeParticipants = pgTable(
 	"challenge_participant",
 	{
-		id: text("id")
-			.primaryKey()
-			.$defaultFn(() => createId())
-			.notNull(),
-		challengeId: text("challenge_id")
+		id: uuid("id").primaryKey().defaultRandom().notNull(),
+		challengeId: uuid("challenge_id")
 			.references(() => challenges.id, {
 				onDelete: "cascade",
 				onUpdate: "cascade",
 			})
 			.notNull(),
-		userId: text("user_id")
+		userId: uuid("user_id")
 			.references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
 			.notNull(),
-		joinedDate: integer("joined_date", { mode: "timestamp" }).notNull(),
-		status: text("status", {
-			enum: ["invited", "accepted", "declined"],
-		}).default("invited"),
+		joinedDate: timestamp("joined_date", {
+			withTimezone: true,
+			precision: 6,
+		}).notNull(),
+		status: challengeParticipantStatus().notNull().default("invited"),
 		...timestamps,
 	},
 	(t) => [

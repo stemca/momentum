@@ -1,15 +1,15 @@
-import { createId } from "@paralleldrive/cuid2";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+
 import { timestamps } from "../timestamps";
 
-export const activities = sqliteTable("activity", {
-	id: text()
-		.primaryKey()
-		.$defaultFn(() => createId())
-		.notNull(),
-	date: integer({ mode: "timestamp" }).notNull(),
-	title: text().notNull(),
-	description: text(),
+export const activities = pgTable("activity", {
+	id: uuid().primaryKey().defaultRandom().notNull(),
+	date: timestamp({
+		withTimezone: true,
+		precision: 6,
+	}).notNull(),
+	title: varchar().notNull(),
+	description: varchar(),
 	...timestamps,
 });
 
