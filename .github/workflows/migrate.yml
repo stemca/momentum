@@ -30,7 +30,7 @@ jobs:
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
       - name: Push schema changes
-        run: pnpm db:migrate
+        run: SKIP_VALIDATION=true pnpm db:migrate
