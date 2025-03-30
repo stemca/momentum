@@ -1,5 +1,6 @@
 import type { OAuth2Tokens } from "arctic";
-import { OAuth2RequestError, decodeIdToken } from "arctic";
+import { OAuth2RequestError } from "arctic";
+import { and, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 
 import { DiscordUserSchema } from "@/schemas/user";
@@ -7,24 +8,24 @@ import { discord } from "@/services/auth/discord";
 import { createSession, generateSessionToken } from "@/services/auth/session";
 import { db } from "@/services/database";
 import { accounts, users } from "@/services/database/schemas";
-import { and, eq } from "drizzle-orm";
 
 export async function GET(request: Request): Promise<Response> {
 	const url = new URL(request.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
 
+	// Handle cookieStore upfront
 	const cookieStore = await cookies();
 	const storedState = cookieStore.get("discord_oauth_state")?.value ?? null;
 
 	if (code === null || state === null || storedState === null) {
-		return new Response(null, { status: 400 });
+		console.log("Invalid request parameters", { code, state, storedState });
+		return new Response("Invalid request parameters", { status: 400 });
 	}
 
 	if (state !== storedState) {
-		return new Response(null, {
-			status: 400,
-		});
+		console.log("State does not match stored state", { state, storedState });
+		return new Response("State mismatch", { status: 400 });
 	}
 
 	let tokens: OAuth2Tokens;
@@ -32,18 +33,20 @@ export async function GET(request: Request): Promise<Response> {
 	try {
 		tokens = await discord.validateAuthorizationCode(code, null);
 	} catch (error) {
+		console.error("Error validating authorization code", error);
 		if (error instanceof OAuth2RequestError) {
-			return new Response(null, {
+			return new Response("OAuth2 error", {
 				status: Number.parseInt(error.code),
 			});
 		}
-		return new Response(null, {
+		return new Response("Failed to validate authorization code", {
 			status: 400,
 		});
 	}
 
 	const accessToken = tokens.accessToken();
 
+	// Fetch Discord user data
 	const response = await fetch("https://discord.com/api/users/@me", {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
@@ -53,12 +56,11 @@ export async function GET(request: Request): Promise<Response> {
 	const user = await response.json();
 	const discordUser = DiscordUserSchema.safeParse(user);
 	if (!discordUser.success) {
-		return new Response(null, {
-			status: 400,
-		});
+		console.log("Invalid Discord user data", discordUser.error);
+		return new Response("Invalid Discord user data", { status: 400 });
 	}
 
-	// first check if the user exists in the users and account table
+	// Check if account exists with Discord ID
 	const existingAccount = await db.query.accounts.findFirst({
 		where: and(
 			eq(accounts.providerId, "discord"),
@@ -66,7 +68,7 @@ export async function GET(request: Request): Promise<Response> {
 		),
 	});
 	if (existingAccount) {
-		// the user exists and is authenticated, issue a session and redirect to /home
+		console.log("Existing account found for user", existingAccount.userId);
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, existingAccount.userId);
 
@@ -78,18 +80,17 @@ export async function GET(request: Request): Promise<Response> {
 			sameSite: "lax",
 			path: "/",
 		});
-
-		(await cookies()).delete("discord_oauth_state");
+		await cookieStore.delete("discord_oauth_state");
 
 		return new Response(null, { status: 302, headers: { Location: "/home" } });
 	}
 
-	// there is no existing account, we should check for a user now
+	// Check if user exists with the same email (to link account)
 	const existingUser = await db.query.users.findFirst({
 		where: eq(users.email, discordUser.data.email),
 	});
 	if (existingUser) {
-		// the user exists, we should link the account to the existing user and issue a session
+		console.log("User exists, linking Discord account", existingUser.id);
 		await db.insert(accounts).values({
 			accountId: discordUser.data.id,
 			userId: existingUser.id,
@@ -107,34 +108,34 @@ export async function GET(request: Request): Promise<Response> {
 			sameSite: "lax",
 			path: "/",
 		});
-
-		(await cookies()).delete("discord_oauth_state");
+		await cookieStore.delete("discord_oauth_state");
 
 		return new Response(null, { status: 302, headers: { Location: "/home" } });
 	}
 
-	// user does not exist at all, make an account and create a session
-	const res = await db
+	// Create a new user and account if no existing user
+	console.log("Creating new user");
+	const newUser = await db
 		.insert(users)
 		.values({
 			email: discordUser.data.email,
 			name: discordUser.data.username,
 		})
 		.returning();
-	if (res.length < 1) {
-		return new Response(null, { status: 400 });
-	}
 
-	const newUser = res[0];
+	if (newUser.length < 1) {
+		console.log("Failed to create new user");
+		return new Response("Failed to create user", { status: 500 });
+	}
 
 	await db.insert(accounts).values({
 		accountId: discordUser.data.id,
-		userId: newUser.id,
+		userId: newUser[0].id,
 		providerId: "discord",
 	});
 
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, newUser.id);
+	const session = await createSession(sessionToken, newUser[0].id);
 
 	cookieStore.set({
 		name: "momentum_session",
@@ -144,7 +145,7 @@ export async function GET(request: Request): Promise<Response> {
 		sameSite: "lax",
 		path: "/",
 	});
-	(await cookies()).delete("discord_oauth_state");
+	await cookieStore.delete("discord_oauth_state");
 
 	return new Response(null, { status: 302, headers: { Location: "/home" } });
 }
