@@ -3,8 +3,10 @@ name: Migrate
 on:
   push:
     # branches: [main]
-    branches: ["*"]
     # paths: ["src/services/database/migrations/*"]
+  pull_request:
+    branches: ["*"]
+  merge_group:
 
 jobs:
   migrate:
