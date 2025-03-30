@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-
 export default function Hero() {
 	return (
 		<section
@@ -21,12 +19,12 @@ export default function Hero() {
 								together.
 							</p>
 						</div>
-						<div className="flex flex-col justify-center gap-3 lg:justify-start min-[400px]:flex-row">
+						{/* <div className="flex flex-col justify-center gap-3 lg:justify-start min-[400px]:flex-row">
 							<Button size="lg">Get Started</Button>
 							<Button size="lg" variant="outline">
 								Learn More
 							</Button>
-						</div>
+						</div> */}
 					</div>
 					<div className="relative flex items-center justify-center">
 						<div className="relative w-full max-w-[400px] overflow-hidden rounded-xl border border-border shadow-sm">
