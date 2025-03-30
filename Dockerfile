@@ -1,41 +1,46 @@
-FROM node:22-bookworm-slim AS base
+# Stage 1: Build the application
+FROM node:22-bookworm-slim AS build
 
-# Stage 1: Install dependencies
-FROM base AS deps
+# Set working directory and install dependencies
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
-# link to built docker image to repository
-LABEL org.opencontainers.image.source https://github.com/stemca/momentum
-
-# Stage 2: Build the application
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Copy the rest of the application
 COPY . .
-RUN corepack enable pnpm && pnpm run build
 
-# Stage 3: Production server
-FROM base AS runner
-WORKDIR /app
-
+# Set the environment variables required for the build (not for the runtime)
 ARG DATABASE_URL
-ARG DATABASE_AUTH_TOKEN
 ARG DISCORD_CLIENT_ID
 ARG DISCORD_CLIENT_SECRET
 ARG DISCORD_CALLBACK_URL
-
 ENV NODE_ENV=production
 ENV DATABASE_URL=$DATABASE_URL
-ENV DATABASE_AUTH_TOKEN=$DATABASE_AUTH_TOKEN
 ENV DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID
 ENV DISCORD_CLIENT_SECRET=$DISCORD_CLIENT_SECRET
 ENV DISCORD_CALLBACK_URL=$DISCORD_CALLBACK_URL
 
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+# Build the application
+RUN corepack enable pnpm && pnpm run build
 
+LABEL org.opencontainers.image.source https://github.com/stemca/momentum
+
+# Stage 2: Prepare the production environment (clean and minimal)
+FROM node:22-bookworm-slim AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built application from the build stage
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+
+# Set production environment variables (do not expose secrets)
+ENV NODE_ENV=production
+
+# Expose the port that the app will run on
 EXPOSE 8000
+
+# Start the production server
 CMD ["node", "server.js"]
