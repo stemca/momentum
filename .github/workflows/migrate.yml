@@ -2,11 +2,8 @@ name: Migrate
 
 on:
   push:
-    # branches: [main]
-    # paths: ["src/services/database/migrations/*"]
-  pull_request:
-    branches: ["*"]
-  merge_group:
+    branches: [main]
+    paths: ["src/services/database/migrations/*"]
 
 jobs:
   migrate:
