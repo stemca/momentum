@@ -1,0 +1,64 @@
+name: Publish Image to Github container registry and deploy
+
+on:
+  push:
+    # branches: [main]
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+  DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+  DISCORD_CALLBACK_URL: ${{ secrets.DISCORD_CALLBACK_URL }}
+  IMAGE_NAME: "momentum"
+  REGISTRY: "ghcr.io"
+  USERNAME: "stemca"
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to container registry
+        run: docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
+      
+      - name: Build Docker image
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+          docker build \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
+            --build-arg DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
+            --build-arg DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
+            -t ghcr.io/stemca/momentum:latest .
+
+      - name: Push image to container registry
+        run: docker push ghcr.io/stemca/momentum:latest
+          
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Digital Ocean droplet with SSH key
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            # login to registry
+            docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
+
+            # stop and remove the existing container 
+            docker stop
+
+            # run the container
+            docker run -d \
+            --restart always \
+            --name ${{ env.IMAGE_NAME }} \
+            -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            -e DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
+            -e DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
+            -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
+            -p 8000:8000 \
+            ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest

@@ -38,6 +38,7 @@ COPY --from=build /app/public ./public
 
 # Set production environment variables (do not expose secrets)
 ENV NODE_ENV=production
+ENV PORT=8000
 
 # Expose the port that the app will run on
 EXPOSE 8000
