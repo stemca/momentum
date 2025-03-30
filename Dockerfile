@@ -6,6 +6,9 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
+# link to built docker image to repository
+LABEL org.opencontainers.image.source https://github.com/stemca/momentum
+
 # Stage 2: Build the application
 FROM base AS builder
 WORKDIR /app
@@ -34,5 +37,5 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-EXPOSE 3000
+EXPOSE 8000
 CMD ["node", "server.js"]
