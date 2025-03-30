@@ -80,7 +80,7 @@ export async function GET(request: Request): Promise<Response> {
 			sameSite: "lax",
 			path: "/",
 		});
-		await cookieStore.delete("discord_oauth_state");
+		cookieStore.delete("discord_oauth_state");
 
 		return new Response(null, { status: 302, headers: { Location: "/home" } });
 	}
@@ -108,7 +108,7 @@ export async function GET(request: Request): Promise<Response> {
 			sameSite: "lax",
 			path: "/",
 		});
-		await cookieStore.delete("discord_oauth_state");
+		cookieStore.delete("discord_oauth_state");
 
 		return new Response(null, { status: 302, headers: { Location: "/home" } });
 	}
@@ -145,7 +145,7 @@ export async function GET(request: Request): Promise<Response> {
 		sameSite: "lax",
 		path: "/",
 	});
-	await cookieStore.delete("discord_oauth_state");
+	cookieStore.delete("discord_oauth_state");
 
 	return new Response(null, { status: 302, headers: { Location: "/home" } });
 }

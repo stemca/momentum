@@ -1,32 +1,32 @@
-import { createId } from "@paralleldrive/cuid2";
-import { index, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, pgEnum, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { activities } from "./activity";
 import { workouts } from "./workout";
 
-export const exercises = sqliteTable(
+export const exerciseTypes = pgEnum("exercise_type", [
+	"cardio",
+	"strength",
+	"calisthenic",
+]);
+
+export const exercises = pgTable(
 	"exercise",
 	{
-		id: text("id")
-			.primaryKey()
-			.notNull()
-			.$defaultFn(() => createId()),
-		activityId: text("activityId")
+		id: uuid("id").primaryKey().defaultRandom().notNull(),
+		activityId: uuid("activityId")
 			.references(() => activities.id, {
 				onDelete: "cascade",
 				onUpdate: "cascade",
 			})
 			.notNull(),
-		workoutId: text("workout_id")
+		workoutId: uuid("workout_id")
 			.references(() => workouts.id, {
 				onDelete: "cascade",
 			})
 			.notNull(),
-		type: text("type", {
-			enum: ["cardio", "strength", "calisthenic"],
-		}).notNull(),
-		description: text("description"),
+		type: exerciseTypes("type").notNull(),
+		description: varchar("description"),
 		...timestamps,
 	},
 	(t) => [

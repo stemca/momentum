@@ -1,30 +1,19 @@
-import { createId } from "@paralleldrive/cuid2";
-import {
-	index,
-	integer,
-	real,
-	sqliteTable,
-	text,
-} from "drizzle-orm/sqlite-core";
+import { index, interval, pgTable, real, uuid } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { exercises } from "./exercise";
 
-export const cardioExercises = sqliteTable(
+export const cardioExercises = pgTable(
 	"cardio_exercise",
 	{
-		id: text("id")
-			.primaryKey()
-			.notNull()
-			.$defaultFn(() => createId()),
-		exerciseId: text("exercise_id")
+		id: uuid("id").primaryKey().notNull().defaultRandom(),
+		exerciseId: uuid("exercise_id")
 			.references(() => exercises.id, {
 				onDelete: "cascade",
 				onUpdate: "cascade",
 			})
 			.notNull(),
-		startTime: integer("start_time", { mode: "timestamp_ms" }).notNull(),
-		endTime: integer("end_time", { mode: "timestamp_ms" }).notNull(),
+		duration: interval("duration").notNull(),
 		distance: real("distance").notNull(),
 		// optional fields
 		...timestamps,

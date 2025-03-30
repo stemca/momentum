@@ -1,29 +1,35 @@
-import { createId } from "@paralleldrive/cuid2";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, pgEnum, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { timestamps } from "../timestamps";
 import { users } from "./user";
 
-export const friends = sqliteTable(
+export const friendStatus = pgEnum("friend_status", [
+	"pending",
+	"accepted",
+	"rejected",
+]);
+
+export const friends = pgTable(
 	"friends",
 	{
-		id: text("id")
-			.primaryKey()
-			.$defaultFn(() => createId())
-			.notNull(),
+		id: uuid("id").primaryKey().defaultRandom().notNull(),
 		// the user who initiated the friend request
-		userId1: text("user_id_1")
+		userId1: uuid("user_id_1")
 			.references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
 			.notNull(),
 		// the user who accepted or rejected the friend request
-		userId2: text("user_id_2")
+		userId2: uuid("user_id_2")
 			.references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
 			.notNull(),
-		status: text("status", { enum: ["pending", "accepted", "rejected"] })
-			.notNull()
-			.default("pending"),
-		requestDate: integer("request_date", { mode: "timestamp" }).notNull(), // When the friend request was sent
-		responseDate: integer("response_date", { mode: "timestamp" }), // When the request was accepted or rejected
+		status: friendStatus().notNull().default("pending"),
+		requestDate: timestamp("request_date", {
+			withTimezone: true,
+			precision: 6,
+		}).notNull(), // When the friend request was sent
+		responseDate: timestamp("response_date", {
+			withTimezone: true,
+			precision: 6,
+		}), // When the request was accepted or rejected
 		...timestamps,
 	},
 	(t) => [

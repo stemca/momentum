@@ -1,12 +1,10 @@
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-
 export default function Hero() {
 	return (
 		<section
 			id="hero"
-			className="flex w-full items-center justify-center py-12 md:py-24 lg:py-32 xl:py-40"
+			className="mx-auto flex w-full max-w-5xl items-center justify-center py-12 md:py-24 lg:py-32 xl:py-40"
 		>
 			<div className="container px-4 md:px-6">
 				<div className="grid gap-8 lg:grid-cols-[1fr_450px] lg:gap-12">
@@ -21,12 +19,12 @@ export default function Hero() {
 								together.
 							</p>
 						</div>
-						<div className="flex flex-col justify-center gap-3 lg:justify-start min-[400px]:flex-row">
+						{/* <div className="flex flex-col justify-center gap-3 lg:justify-start min-[400px]:flex-row">
 							<Button size="lg">Get Started</Button>
 							<Button size="lg" variant="outline">
 								Learn More
 							</Button>
-						</div>
+						</div> */}
 					</div>
 					<div className="relative flex items-center justify-center">
 						<div className="relative w-full max-w-[400px] overflow-hidden rounded-xl border border-border shadow-sm">

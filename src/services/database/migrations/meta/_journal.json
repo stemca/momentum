@@ -1,54 +1,12 @@
 {
 	"version": "7",
-	"dialect": "sqlite",
+	"dialect": "postgresql",
 	"entries": [
 		{
 			"idx": 0,
-			"version": "6",
-			"when": 1742932858510,
-			"tag": "0000_wise_cassandra_nova",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "6",
-			"when": 1742934453538,
-			"tag": "0001_parallel_jack_murdock",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "6",
-			"when": 1742947779113,
-			"tag": "0002_slim_lifeguard",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "6",
-			"when": 1743105455200,
-			"tag": "0003_groovy_emma_frost",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "6",
-			"when": 1743193713978,
-			"tag": "0004_flat_the_hood",
-			"breakpoints": true
-		},
-		{
-			"idx": 5,
-			"version": "6",
-			"when": 1743276686871,
-			"tag": "0005_familiar_dark_beast",
-			"breakpoints": true
-		},
-		{
-			"idx": 6,
-			"version": "6",
-			"when": 1743290701332,
-			"tag": "0006_ancient_vance_astro",
+			"version": "7",
+			"when": 1743324352413,
+			"tag": "0000_aromatic_vengeance",
 			"breakpoints": true
 		}
 	]
