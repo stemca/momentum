@@ -1,9 +1,12 @@
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32NoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
+import { cache } from "react";
 
 import type { Session, User } from "@/services/database/schemas";
 import { sessions, users } from "@/services/database/schemas";
+
 import { db } from "../database";
 
 export const generateSessionToken = (): string => {
@@ -25,24 +28,20 @@ export const createSession = async (
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
 	} satisfies Session;
 
-	const [result] = await db.insert(sessions).values(session).returning();
-	if (!result) {
-		throw new Error("Failed to create session");
-	}
+	await db.insert(sessions).values(session);
 
-	return result;
+	return session;
 };
 
 export const validateSessionToken = async (
 	token: string,
 ): Promise<SessionValidationResult> => {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-
 	const result = await db
 		.select({ user: users, session: sessions })
 		.from(sessions)
 		.innerJoin(users, eq(sessions.userId, users.id))
-		.where(eq(sessions.id, sessionId));
+		.where(eq(sessions.id, token));
+
 	if (result.length < 1) {
 		return { session: null, user: null };
 	}
@@ -72,6 +71,20 @@ export const invalidateSession = async (sessionId: string): Promise<void> => {
 export const invalidateAllSessions = async (userId: string): Promise<void> => {
 	await db.delete(sessions).where(eq(sessions.userId, userId));
 };
+
+export const getCurrentSession = cache(
+	async (): Promise<SessionValidationResult> => {
+		const cookieStore = await cookies();
+		const sessionToken = cookieStore.get("momentum_session");
+
+		if (!sessionToken) {
+			return { user: null, session: null };
+		}
+
+		const result = await validateSessionToken(sessionToken.value);
+		return result;
+	},
+);
 
 export type SessionValidationResult =
 	| { session: Session; user: User }

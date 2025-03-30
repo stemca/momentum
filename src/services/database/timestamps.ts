@@ -3,11 +3,11 @@ import { int } from "drizzle-orm/sqlite-core";
 
 export const timestamps = {
 	createdAt: int("created_at", {
-		mode: "timestamp",
+		mode: "timestamp_ms",
 	})
 		.notNull()
-		.default(sql`(unixepoch())`),
+		.default(sql`(unixepoch() * 1000)`),
 	updatedAt: int("updated_at", {
-		mode: "timestamp",
-	}).$onUpdate(() => sql`(unixepoch())`),
+		mode: "timestamp_ms",
+	}).$onUpdateFn(() => new Date()),
 };

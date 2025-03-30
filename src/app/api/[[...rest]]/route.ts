@@ -17,7 +17,6 @@ const openAPIHandler = new OpenAPIHandler(router, {
 export const { GET, POST, PUT, PATCH, DELETE } = serve(openAPIHandler, {
 	prefix: "/api",
 	context: async (req) => {
-		// TODO: grab user from session
 		return {};
 	},
 });

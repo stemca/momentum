@@ -29,6 +29,27 @@
 			"when": 1743105455200,
 			"tag": "0003_groovy_emma_frost",
 			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "6",
+			"when": 1743193713978,
+			"tag": "0004_flat_the_hood",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "6",
+			"when": 1743276686871,
+			"tag": "0005_familiar_dark_beast",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "6",
+			"when": 1743290701332,
+			"tag": "0006_ancient_vance_astro",
+			"breakpoints": true
 		}
 	]
 }

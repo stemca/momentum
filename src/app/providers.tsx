@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeProvider } from "@/components/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -8,7 +9,13 @@ export function Providers(props: { children: React.ReactNode }) {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			{props.children}
+			<ThemeProvider
+				attribute="class"
+				defaultTheme="light"
+				disableTransitionOnChange
+			>
+				{props.children}
+			</ThemeProvider>
 		</QueryClientProvider>
 	);
 }

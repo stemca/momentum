@@ -7,10 +7,12 @@ export const sessions = sqliteTable(
 	"session",
 	{
 		id: text({ length: 256 }).primaryKey().notNull(),
-		userId: text("user_id").references(() => users.id, {
-			onDelete: "cascade",
-		}),
-		expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+		userId: text("user_id")
+			.references(() => users.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
 		...timestamps,
 	},
 	(t) => [index("session_user_id_idx").on(t.userId)],
