@@ -1,7 +1,11 @@
-export default function Page() {
+import Features from "./sections/features";
+import Hero from "./sections/hero";
+
+export default function LandingPage() {
 	return (
-		<div className="h-screen w-screen bg-gray-100">
-			<h1 className="text-3xl">Hello world</h1>
+		<div>
+			<Hero />
+			<Features />
 		</div>
 	);
 }
