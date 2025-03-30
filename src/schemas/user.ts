@@ -64,3 +64,15 @@ export const SignInSchema = oz.openapi(
 		],
 	},
 );
+
+export const DiscordUserSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	avatar: z.string(),
+	email: z.string(),
+	verified: z.boolean(),
+});
+
+export const ExistingUserSchema = UserSchema.pick({
+	email: true,
+});

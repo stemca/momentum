@@ -17,6 +17,7 @@ export const signUp = pub
 		path: "/auth/sign-up",
 		summary: "Sign up a new user",
 		tags: ["authentication"],
+		successStatus: 201,
 	})
 	.errors({
 		CONFLICT: {
@@ -58,6 +59,7 @@ export const signIn = pub
 		path: "/auth/sign-in",
 		summary: "Sign in",
 		tags: ["authentication"],
+		successStatus: 201,
 	})
 	.errors({
 		BAD_REQUEST: {
@@ -98,13 +100,13 @@ export const signIn = pub
 
 export const signOut = authed
 	.route({
-		method: "POST",
+		method: "DELETE",
 		path: "/auth/sign-out",
 		summary: "Sign out",
 		tags: ["authentication"],
+		successStatus: 204,
 	})
 	.handler(async ({ context }) => {
-		// delete session from db
 		await invalidateSession(context.session.id);
 	})
 	.actionable();

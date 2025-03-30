@@ -12,3 +12,4 @@ export * from "./challenge-invitation";
 export * from "./challenge-participant";
 export * from "./friend";
 export * from "./user-info";
+export * from "./account";

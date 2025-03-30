@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { NewUserSchema, SignInSchema } from "@/schemas/user";
 import { signIn, signOut, signUp } from "@/server/routers/auth";
 import type { FormState } from "@/types/form-state";
+import { revalidatePath } from "next/cache";
 
 export const signUpAction = async (
 	_: unknown,
@@ -78,16 +79,10 @@ export const signInAction = async (
 };
 
 export const signOutAction = async () => {
+	await signOut();
+
 	const cookieStore = await cookies();
 	cookieStore.delete("momentum_session");
 
-	try {
-		await signOut();
-	} catch (error) {
-		if (error instanceof ORPCError) {
-			throw new Error(error.message);
-		}
-	}
-
-	redirect("/home");
+	revalidatePath("/home");
 };

@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import SignInForm from "@/features/auth/components/sign-in-form";
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
+import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata = {
 	title: "Sign In | Momentum",
@@ -28,11 +28,11 @@ export default function SignUpPage() {
 						</div>
 					</div>
 
-					<Button disabled variant="outline" className="w-full">
-						Google
-					</Button>
-					<Button disabled variant="outline" className="w-full">
-						Discord
+					<Button variant="outline" className="w-full" asChild>
+						<Link href="/auth/sign-in/discord" prefetch={false}>
+							<DiscordLogoIcon />
+							Discord
+						</Link>
 					</Button>
 
 					<div className="text-center text-sm">
