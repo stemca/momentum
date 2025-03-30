@@ -2,8 +2,9 @@ name: Migrate
 
 on:
   push:
-    branches: [main]
-    paths: ["src/services/database/migrations/*"]
+    # branches: [main]
+    branches: ["*"]
+    # paths: ["src/services/database/migrations/*"]
 
 jobs:
   migrate:
@@ -30,7 +31,7 @@ jobs:
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
       - name: Install dependencies
-        run: pnpm i
+        run: SKIP_VALIDATION=true pnpm i --frozen-lockfile
 
       - name: Push schema changes
         run: pnpm db:migrate
