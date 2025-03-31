@@ -22,13 +22,13 @@ jobs:
 
       - name: Login to container registry
         run: docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
-      
+
       - name: Build Docker image
-        run: docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
 
       - name: Push image to container registry
-        run: docker push ghcr.io/stemca/momentum:latest
-          
+        run: docker push ghcr.io/stemca/momentum:${{ github.sha }}
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_publish
@@ -44,12 +44,12 @@ jobs:
             # login to registry
             docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
 
-            # stop and remove the existing container 
+            # stop and remove the existing container
             docker stop ${{ env.IMAGE_NAME }} || true
             docker rm ${{ env.IMAGE_NAME }} || true
 
             # build the image
-            docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+            docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
 
             # run the container
             docker run -d \
@@ -61,4 +61,4 @@ jobs:
             -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
             -e PORT=8000 \
             -p 8000:8000 \
-            ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
