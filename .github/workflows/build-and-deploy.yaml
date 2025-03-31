@@ -38,7 +38,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Digital Ocean droplet with SSH key
+      - name: SSH into VPS and Deploy to droplet with SSH key
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.HOST }}
