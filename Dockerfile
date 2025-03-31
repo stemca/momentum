@@ -23,7 +23,7 @@ ENV DISCORD_CALLBACK_URL=$DISCORD_CALLBACK_URL
 # Build the application
 RUN corepack enable pnpm && pnpm run build
 
-LABEL org.opencontainers.image.source https://github.com/stemca/momentum
+LABEL org.opencontainers.image.source https://github.com/OWNER/REPO
 
 # Stage 2: Prepare the production environment (clean and minimal)
 FROM node:22-bookworm-slim AS production
