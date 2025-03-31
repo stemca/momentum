@@ -25,12 +25,6 @@ jobs:
       
       - name: Build Docker image
         run: docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest .
-          docker build \
-            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
-            --build-arg DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
-            --build-arg DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
-            --build-arg DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
-            -t ghcr.io/stemca/momentum:latest .
 
       - name: Push image to container registry
         run: docker push ghcr.io/stemca/momentum:latest
