@@ -50,7 +50,8 @@ jobs:
             docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
 
             # stop and remove the existing container 
-            docker stop
+            docker stop ${{ env.IMAGE_NAME }} || true
+            docker rm ${{ env.IMAGE_NAME }} || true
 
             # run the container
             docker run -d \
