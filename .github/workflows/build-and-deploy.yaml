@@ -2,7 +2,7 @@ name: Publish Image to Github container registry and deploy
 
 on:
   push:
-    # branches: [main]
+    branches: [main]
 
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
