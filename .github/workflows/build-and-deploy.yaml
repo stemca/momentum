@@ -48,6 +48,9 @@ jobs:
             docker stop ${{ env.IMAGE_NAME }} || true
             docker rm ${{ env.IMAGE_NAME }} || true
 
+            # build the image
+            docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+
             # run the container
             docker run -d \
             --restart always \
@@ -56,5 +59,6 @@ jobs:
             -e DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
             -e DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
             -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
+            -e PORT=8000 \
             -p 8000:8000 \
             ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:latest
