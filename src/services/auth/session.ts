@@ -76,6 +76,7 @@ export const getCurrentSession = cache(
 	async (): Promise<SessionValidationResult> => {
 		const cookieStore = await cookies();
 		const sessionToken = cookieStore.get("momentum_session");
+		console.log(sessionToken)
 
 		if (!sessionToken) {
 			return { user: null, session: null };

@@ -34,6 +34,7 @@ export const signUpAction = async (
 			path: "/",
 		});
 	} catch (error) {
+		console.error(error);
 		if (error instanceof ORPCError) {
 			return { message: error.message, success: false };
 		}

@@ -18,20 +18,17 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       '@orpc/client':
-        specifier: ^0.51.0
-        version: 0.51.0
-      '@orpc/contract':
-        specifier: ^0.51.0
-        version: 0.51.0
+        specifier: ^0.52.0
+        version: 0.52.0
       '@orpc/openapi':
-        specifier: ^0.51.0
-        version: 0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+        specifier: ^0.52.0
+        version: 0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@orpc/server':
-        specifier: ^0.51.0
-        version: 0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+        specifier: ^0.52.0
+        version: 0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@orpc/zod':
-        specifier: ^0.51.0
-        version: 0.51.0(@orpc/contract@0.51.0)(@orpc/server@0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)))(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+        specifier: ^0.52.0
+        version: 0.52.0(@orpc/contract@0.52.0)(@orpc/server@0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)))(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@oslojs/crypto':
         specifier: ^1.0.1
         version: 1.0.1
@@ -969,41 +966,41 @@ packages:
     resolution: {integrity: sha512-t64wIsPEtNd4aUPuTAyeL2ubxATCBGmeluaKXEMAFk/8w6AJIVVkeLKMBpgLW6LU2t5cQxT+env/c6jxbtTQBg==}
     engines: {node: '>= 10'}
 
-  '@orpc/client@0.51.0':
-    resolution: {integrity: sha512-uBty4Q4bpgzg6LvWy5yJUQb7BUETF1MWz/M+o/HP9n2G1zJQwKVCEBP03U8FM/4efeMO2wOqbS/MoMJKxb9raw==}
+  '@orpc/client@0.52.0':
+    resolution: {integrity: sha512-g10uLY8o75dTOHuS1by1uJoNzM8jT64FB7B930mJysdyIFAmxmj65g1f7BMe2xOYGfyZaHjrFHLSLjLOHrnBtg==}
 
-  '@orpc/contract@0.51.0':
-    resolution: {integrity: sha512-znpTaSPoMwOKyWz3Qc0K8MnA2uN60VqnaW/loqRxAw5VWcs9Wr1alncIKZwF24oP6xjYH4QNo43YOEADVwGWHw==}
+  '@orpc/contract@0.52.0':
+    resolution: {integrity: sha512-3m4YmzJw7B9UUnhC344Xvl4Xjg8aNUIVtfKxGx21YpWy13s9Zga/f+dZ5xgeZTm+IEyB0b8h3S5rn1J7gqv/6w==}
 
-  '@orpc/openapi-client@0.51.0':
-    resolution: {integrity: sha512-qmuW2AylcFUjfsWCRhrMnuKHGRCuEMN3bx0HerYb4zrUgsZax3gmKWajC9VU159NAG4gxilq8rt15v2azW69Fw==}
+  '@orpc/openapi-client@0.52.0':
+    resolution: {integrity: sha512-WXvuoQ4DiKbM524YsoPcbEj3JnQDFXQD4k0Fl7O1dQAixocL2wIFa1gahP9fOZRegVqxrEs8NZNWAgPOWDl8tw==}
 
-  '@orpc/openapi@0.51.0':
-    resolution: {integrity: sha512-bM5n4Dxv7/HrM4ULKQquUFxGPdWZzxs5shayasS+RiwftWuRiOxE97EolxNw2XNzYcMC6sWsx9EkRyAZs2XA3Q==}
+  '@orpc/openapi@0.52.0':
+    resolution: {integrity: sha512-lV/bTN2DJ3XSqmwG/oq/f8wbCE+WkvFqx96/OQ4eRgt3+e6v++urGZ2lLIB4TX8VaBYrnuS4IiPtj0o4azfYlA==}
 
-  '@orpc/server@0.51.0':
-    resolution: {integrity: sha512-LfZ7jS11nWjItxecR6/zdQZ993ZCMphHMAbhG7dfFV9b+M7hXhLu5RUkpgTqjlroA4HayW59T72hnm3J58jKUQ==}
+  '@orpc/server@0.52.0':
+    resolution: {integrity: sha512-phO8ynOqA3PcaYeTOTTlcqDStlv5tPEYNlxTSOjVRQ5AIoWqoFR2uFJGEJU6O6k9/CU3v/HjopvIeP6NPuiBgw==}
     peerDependencies:
       hono: '>=4.6.0'
       next: '>=14.0.0'
 
-  '@orpc/shared@0.51.0':
-    resolution: {integrity: sha512-TOaScn7aVUeSq97VZD7Cu1iRZLaL++JUkiU69HHxvXtlpF7Gt3COc/roVsznxBQgnezICEYfD50Axb+LWu+m4Q==}
+  '@orpc/shared@0.52.0':
+    resolution: {integrity: sha512-IUfucxardrgN2qZTgJtVc9wmEjFOMfoE41LOB+lvxfbYn/aK8qzWTY6+yWMWpC931k0DJj013tAuZ1F+TI7qXw==}
 
-  '@orpc/standard-server-fetch@0.51.0':
-    resolution: {integrity: sha512-Pk0e+18uKkMK96JHs65Zv4zJjn0MVFDHMOWyeJYl1HPkcxo0MbYodY/8tLtLYVbOWlRI2Si9Gs7ySlhVwR4Q3w==}
+  '@orpc/standard-server-fetch@0.52.0':
+    resolution: {integrity: sha512-SNu/5YlK9Z5fRrgsCNkfYLCHdOTVlFg8r04k5tZ+1WR2xpWLZx6RK5CIxI/ktEP7hIIFnymTq9t6RVieBPIXBg==}
 
-  '@orpc/standard-server-node@0.51.0':
-    resolution: {integrity: sha512-A5IsQBKf0/yKdxS9FVJRmE8klkyFDQ7UOnRgk3l974J/Om1xKgI+FF64/rYmLhMdkhkJ7JCej2qXd90bjIkyKQ==}
+  '@orpc/standard-server-node@0.52.0':
+    resolution: {integrity: sha512-pwYMdInpS0ECshPQKPeoy+7hNy5S/xDTTlBCvz/QSAMd5MZvfHgE55raxt7QYAkMpsEUBN53oulVVKjzmxcIwg==}
 
-  '@orpc/standard-server@0.51.0':
-    resolution: {integrity: sha512-fw2UVRYQ7NRwgl0JeKQMenJ7I0d1UAqFFiMqcZhuRi6+iEAcWAWXGhIzJSGMWwzNguPUJ9vpGqAzxTxY26zRtw==}
+  '@orpc/standard-server@0.52.0':
+    resolution: {integrity: sha512-T6XnO6Sg1KTntMJ9BxfHEsQFkI4v/SlnHAqFsinWWzHJM2JI9LGDMWxcAuvbxGH2+4pKLuwHlvYnOskfhVjLkA==}
 
-  '@orpc/zod@0.51.0':
-    resolution: {integrity: sha512-0wJ7RdPI1Vncohkg1zQcgfbOs3uSN+oRIs/J2ZSr5A6A0QCHavesyxezN7aV8oC4SFRC4YI1OZXk/lUFINU5AA==}
+  '@orpc/zod@0.52.0':
+    resolution: {integrity: sha512-OklxW+mP3KHea72oxGxzJGG7X2YqM2DBPdd4ZTMAMQ1syN8L1YP2LKih/q5JfyX0RaK1fyG/l46Exxb2PmY/mg==}
     peerDependencies:
-      '@orpc/contract': 0.51.0
-      '@orpc/server': 0.51.0
+      '@orpc/contract': 0.52.0
+      '@orpc/server': 0.52.0
 
   '@oslojs/asn1@1.0.0':
     resolution: {integrity: sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==}
@@ -2688,33 +2685,34 @@ snapshots:
       '@node-rs/argon2-win32-ia32-msvc': 2.0.2
       '@node-rs/argon2-win32-x64-msvc': 2.0.2
 
-  '@orpc/client@0.51.0':
+  '@orpc/client@0.52.0':
     dependencies:
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
-      '@orpc/standard-server-fetch': 0.51.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
+      '@orpc/standard-server-fetch': 0.52.0
 
-  '@orpc/contract@0.51.0':
+  '@orpc/contract@0.52.0':
     dependencies:
-      '@orpc/client': 0.51.0
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
+      '@orpc/client': 0.52.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
       '@standard-schema/spec': 1.0.0
 
-  '@orpc/openapi-client@0.51.0':
+  '@orpc/openapi-client@0.52.0':
     dependencies:
-      '@orpc/client': 0.51.0
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
+      '@orpc/client': 0.52.0
+      '@orpc/contract': 0.52.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
 
-  '@orpc/openapi@0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+  '@orpc/openapi@0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
     dependencies:
-      '@orpc/client': 0.51.0
-      '@orpc/contract': 0.51.0
-      '@orpc/openapi-client': 0.51.0
-      '@orpc/server': 0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
+      '@orpc/client': 0.52.0
+      '@orpc/contract': 0.52.0
+      '@orpc/openapi-client': 0.52.0
+      '@orpc/server': 0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
       json-schema-typed: 8.0.1
       openapi-types: 12.1.3
       rou3: 0.5.1
@@ -2722,43 +2720,43 @@ snapshots:
       - hono
       - next
 
-  '@orpc/server@0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+  '@orpc/server@0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
     dependencies:
-      '@orpc/client': 0.51.0
-      '@orpc/contract': 0.51.0
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
-      '@orpc/standard-server-fetch': 0.51.0
-      '@orpc/standard-server-node': 0.51.0
+      '@orpc/client': 0.52.0
+      '@orpc/contract': 0.52.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
+      '@orpc/standard-server-fetch': 0.52.0
+      '@orpc/standard-server-node': 0.52.0
       hono: 4.7.5
       next: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
 
-  '@orpc/shared@0.51.0':
+  '@orpc/shared@0.52.0':
     dependencies:
       radash: 12.1.0
       type-fest: 4.38.0
 
-  '@orpc/standard-server-fetch@0.51.0':
+  '@orpc/standard-server-fetch@0.52.0':
     dependencies:
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
 
-  '@orpc/standard-server-node@0.51.0':
+  '@orpc/standard-server-node@0.52.0':
     dependencies:
-      '@orpc/shared': 0.51.0
-      '@orpc/standard-server': 0.51.0
+      '@orpc/shared': 0.52.0
+      '@orpc/standard-server': 0.52.0
 
-  '@orpc/standard-server@0.51.0':
+  '@orpc/standard-server@0.52.0':
     dependencies:
-      '@orpc/shared': 0.51.0
+      '@orpc/shared': 0.52.0
       '@tinyhttp/content-disposition': 2.2.2
 
-  '@orpc/zod@0.51.0(@orpc/contract@0.51.0)(@orpc/server@0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)))(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+  '@orpc/zod@0.52.0(@orpc/contract@0.52.0)(@orpc/server@0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)))(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
     dependencies:
-      '@orpc/contract': 0.51.0
-      '@orpc/openapi': 0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
-      '@orpc/server': 0.51.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
-      '@orpc/shared': 0.51.0
+      '@orpc/contract': 0.52.0
+      '@orpc/openapi': 0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      '@orpc/server': 0.52.0(hono@4.7.5)(next@15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      '@orpc/shared': 0.52.0
       escape-string-regexp: 5.0.0
       wildcard-match: 5.1.4
       zod: 3.24.2
