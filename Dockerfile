@@ -46,4 +46,4 @@ ENV PORT=8000
 EXPOSE 8000
 
 # Start the production server
-CMD ["node", ".next/standalone/server.js"]
+CMD ["node", "server.js"]
