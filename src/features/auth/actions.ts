@@ -83,7 +83,7 @@ export const signOutAction = async () => {
 	const sessionId = cookieStore.get(SESSION_COOKIE_NAME);
 
 	if (!sessionId?.value) {
-		return { success: false, message: "You must be logged in to do that" };
+		throw new Error("You must be logged in to do that");
 	}
 
 	await client.POST("/api/auth/logout", {

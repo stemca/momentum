@@ -1,6 +1,7 @@
+import { redirect } from "next/navigation";
+
 import LogoutButton from "@/components/logout-button";
 import { getCurrentSession } from "@/services/auth/session";
-import { redirect } from "next/navigation";
 
 export default async function HomePage() {
 	const { user, session } = await getCurrentSession();
