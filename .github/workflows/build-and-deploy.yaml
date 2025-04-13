@@ -60,5 +60,6 @@ jobs:
               -e DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
               -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
               -e PORT=8000 \
+              -e NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} \
               -p 8000:8000 \
               ghcr.io/stemca/momentum:${{ github.sha }}
