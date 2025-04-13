@@ -1,5 +1,5 @@
-import Features from "./sections/features";
-import Hero from "./sections/hero";
+import Features from "@/features/public/components/features";
+import Hero from "@/features/public/components/hero";
 
 export default function LandingPage() {
 	return (

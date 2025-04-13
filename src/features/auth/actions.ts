@@ -1,88 +1,101 @@
 "use server";
 
-import { ORPCError } from "@orpc/client";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { NewUserSchema, SignInSchema } from "@/schemas/user";
-import { signIn, signOut, signUp } from "@/server/routers/auth";
+import client from "@/lib/api";
+import { LoginSchema, RegisterSchema } from "@/schemas/auth";
 import type { FormState } from "@/types/form-state";
-import { revalidatePath } from "next/cache";
+import { SESSION_COOKIE_NAME, SESSION_COOKIE_TTL } from "@/utils/constants";
 
-export const signUpAction = async (
+export const registerAction = async (
 	_: unknown,
 	formData: FormData,
 ): Promise<FormState> => {
-	const values = Object.fromEntries(formData.entries());
-	const validated = NewUserSchema.safeParse(values);
-
+	const values = Object.fromEntries(formData);
+	const validated = RegisterSchema.safeParse(values);
 	if (!validated.success) {
 		return { message: "Invalid form data", success: false };
 	}
 
-	try {
-		const { id } = await signUp({ ...validated.data });
+	const { data, error } = await client.POST("/api/auth/register", {
+		body: { ...validated.data },
+	});
 
-		const cookieStore = await cookies();
-
-		cookieStore.set({
-			name: "momentum_session",
-			value: id,
-			httpOnly: true,
-			secure: true,
-			sameSite: "lax",
-			path: "/",
-		});
-	} catch (error) {
-		if (error instanceof ORPCError) {
-			return { message: error.message, success: false };
-		}
-
-		return { message: "Something went wrong", success: false };
+	if (error) {
+		return {
+			message: error.message,
+			success: false,
+		};
 	}
+
+	const cookieStore = await cookies();
+	cookieStore.set({
+		name: SESSION_COOKIE_NAME,
+		value: data.id,
+		maxAge: SESSION_COOKIE_TTL,
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		path: "/",
+	});
 
 	redirect("/home");
 };
 
-export const signInAction = async (
+export const loginAction = async (
 	_: unknown,
 	formData: FormData,
 ): Promise<FormState> => {
 	const values = Object.fromEntries(formData.entries());
-	const validated = SignInSchema.safeParse(values);
+	const validated = LoginSchema.safeParse(values);
 
 	if (!validated.success) {
 		return { message: "Invalid form data", success: false };
 	}
 
-	try {
-		const { id } = await signIn({ ...validated.data });
+	const { data, error } = await client.POST("/api/auth/login", {
+		body: { ...validated.data },
+		credentials: "include",
+	});
 
-		const cookieStore = await cookies();
-		cookieStore.set({
-			name: "momentum_session",
-			value: id,
-			httpOnly: true,
-			secure: true,
-			sameSite: "lax",
-			path: "/",
-		});
-	} catch (error) {
-		if (error instanceof ORPCError) {
-			return { message: error.message, success: false };
-		}
-
-		return { message: "Something went wrong", success: false };
+	if (error) {
+		return {
+			message: error.message,
+			success: false,
+		};
 	}
+
+	const cookieStore = await cookies();
+	cookieStore.set({
+		name: SESSION_COOKIE_NAME,
+		value: data.id,
+		maxAge: SESSION_COOKIE_TTL,
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		path: "/",
+	});
 
 	redirect("/home");
 };
 
 export const signOutAction = async () => {
-	await signOut();
-
 	const cookieStore = await cookies();
-	cookieStore.delete("momentum_session");
+	const sessionId = cookieStore.get(SESSION_COOKIE_NAME);
 
-	revalidatePath("/home");
+	if (!sessionId?.value) {
+		return { success: false, message: "You must be logged in to do that" };
+	}
+
+	await client.POST("/api/auth/logout", {
+		params: {
+			header: {
+				momentum_session_id: sessionId.value,
+			},
+		},
+		credentials: "include",
+	});
+
+	cookieStore.delete(SESSION_COOKIE_NAME);
+
+	redirect("/");
 };

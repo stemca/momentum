@@ -4,10 +4,10 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import type { Session, User } from "@/services/database/schemas";
-import { sessions, users } from "@/services/database/schemas";
-
-import { db } from "../database";
+import { SESSION_COOKIE_NAME } from "@/utils/constants";
+import { db } from "../db";
+import type { Session, User } from "../db/schemas";
+import { sessions, users } from "../db/schemas";
 
 export const generateSessionToken = (): string => {
 	const bytes = new Uint8Array(20);
@@ -75,7 +75,7 @@ export const invalidateAllSessions = async (userId: string): Promise<void> => {
 export const getCurrentSession = cache(
 	async (): Promise<SessionValidationResult> => {
 		const cookieStore = await cookies();
-		const sessionToken = cookieStore.get("momentum_session");
+		const sessionToken = cookieStore.get(SESSION_COOKIE_NAME);
 
 		if (!sessionToken) {
 			return { user: null, session: null };
