@@ -44,21 +44,21 @@ jobs:
             # login to registry
             docker login --username stemca --password ${{ secrets.GH_PAT }} ghcr.io
 
-            # stop and remove the existing container
-            docker stop ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }} || true
-            docker rm ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }} || true
+            # stop and remove the existing container by name
+            docker stop momentum || true
+            docker rm momentum || true
 
-            # build the image
-            docker build -t ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+            # pull the latest image
+            docker pull ghcr.io/stemca/momentum:${{ github.sha }}
 
-            # run the container
+            # run the new container
             docker run -d \
-            --restart always \
-            --name ${{ env.IMAGE_NAME }} \
-            -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
-            -e DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
-            -e DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
-            -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
-            -e PORT=8000 \
-            -p 8000:8000 \
-            ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+              --restart always \
+              --name momentum \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }} \
+              -e DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }} \
+              -e DISCORD_CALLBACK_URL=${{ secrets.DISCORD_CALLBACK_URL }} \
+              -e PORT=8000 \
+              -p 8000:8000 \
+              ghcr.io/stemca/momentum:${{ github.sha }}

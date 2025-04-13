@@ -25,5 +25,5 @@ export const userInfos = pgTable("user_infos", {
 export type UserInfo = typeof userInfos.$inferInsert;
 export type SelectUserInfo = typeof userInfos.$inferSelect;
 
-export const CreateUserSchema = createInsertSchema(userInfos);
+export const CreateUserInfoSchema = createInsertSchema(userInfos);
 export const SelectUserInfoSchema = createSelectSchema(userInfos);
