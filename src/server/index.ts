@@ -12,10 +12,17 @@ import { cors } from "hono/cors";
 const app = new OpenAPIHono<{ Variables: ContextVariables }>();
 
 app.use(
+	"*",
 	cors({
-		// TODO: add prod server for cors origin
-		origin: ["http://localhost:3000"],
+		origin: (origin) => {
+			const allowed = ["http://localhost:3000", "https://momentum.stemca.dev"];
+			return allowed.includes(origin ?? "") ? origin : "";
+		},
 		credentials: true,
+		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowHeaders: ["Content-Type", "Authorization"],
+		exposeHeaders: ["Set-Cookie"],
+		maxAge: 86400,
 	}),
 );
 
@@ -53,10 +60,6 @@ app.get(
 		url: "/api/swagger.json",
 	}),
 );
-
-app.get("/", (c) => {
-	return c.text("Hello World!");
-});
 
 const routes = app.route("/", authRoutes);
 
