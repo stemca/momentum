@@ -4,7 +4,7 @@ FROM node:22-bookworm-slim AS build
 # Set working directory and install dependencies
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN corepack enable pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # Copy the rest of the application
 COPY . .
@@ -14,16 +14,18 @@ ARG DATABASE_URL
 ARG DISCORD_CLIENT_ID
 ARG DISCORD_CLIENT_SECRET
 ARG DISCORD_CALLBACK_URL
+ARG NEXT_PUBLIC_BASE_URL
 ENV NODE_ENV=production
 ENV DATABASE_URL=$DATABASE_URL
 ENV DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID
 ENV DISCORD_CLIENT_SECRET=$DISCORD_CLIENT_SECRET
 ENV DISCORD_CALLBACK_URL=$DISCORD_CALLBACK_URL
+ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 
 # Build the application
 RUN corepack enable pnpm && pnpm run build
 
-LABEL org.opencontainers.image.source https://github.com/OWNER/REPO
+LABEL org.opencontainers.image.source=https://github.com/OWNER/REPO
 
 # Stage 2: Prepare the production environment (clean and minimal)
 FROM node:22-bookworm-slim AS production
@@ -44,4 +46,4 @@ ENV PORT=8000
 EXPOSE 8000
 
 # Start the production server
-CMD ["node", "server.js"]
+CMD ["node", ".next/standalone/server.js"]
