@@ -3,7 +3,7 @@ name: Migrate database
 on:
   push:
     branches: [main]
-    # paths: ["src/services/db/migrations/*"]
+    paths: ["src/services/db/migrations/*"]
 
 jobs:
   migrate:

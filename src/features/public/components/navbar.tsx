@@ -74,14 +74,14 @@ export default async function Navbar() {
 						{user === null && (
 							<>
 								<SheetClose asChild>
-									<Link href="/auth/sign-in">
+									<Link href="/auth/login">
 										<Button variant="link" className="text-lg">
 											Log in
 										</Button>
 									</Link>
 								</SheetClose>
 								<SheetClose asChild>
-									<Link href="/auth/sign-up">
+									<Link href="/auth/register">
 										<Button size="lg">Sign Up</Button>
 									</Link>
 								</SheetClose>
