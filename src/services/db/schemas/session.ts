@@ -1,7 +1,6 @@
 import { index, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import { z } from "zod";
 import { timestamps } from "../timestamps";
 import { users } from "./user";
 

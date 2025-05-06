@@ -32,7 +32,7 @@ export default function RegisterPage() {
 					</div>
 
 					<Button variant="outline" className="w-full" asChild>
-						<Link href="/auth/sign-in/discord" prefetch={false}>
+						<Link href="/auth/login/discord" prefetch={false}>
 							<DiscordLogoIcon />
 							Discord
 						</Link>
